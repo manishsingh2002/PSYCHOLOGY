@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Psychology & Portfolio Masterclass — Elite Edition</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ════════════════════════════════════════
+   THEME VARIABLES & ELITE RESET
+════════════════════════════════════════ */
+:root[data-theme="dark"] {
+  --bg: #05030a;
+  --bg-gradient: radial-gradient(circle at 50% 0%, #110a1f 0%, #05030a 80%);
+  --surface: rgba(15, 10, 25, 0.7);
+  --surface-blur: blur(20px);
+  --card: rgba(22, 15, 38, 0.7);
+  --card-hover: rgba(30, 20, 50, 0.9);
+  --border: rgba(45, 30, 75, 0.8);
+  --border-hover: rgba(124, 77, 255, 0.5);
+  
+  --psy-violet: #7c4dff;
+  --psy-teal: #1de9b6;
+  --psy-rose: #ff4081;
+  --gold: #ffd54f;
+  --red: #ff1744;
+  
+  --text-main: #e6e0f0;
+  --text-muted: #8b8099;
+  --white: #ffffff;
+  
+  --glow-violet: 0 0 30px rgba(124, 77, 255, 0.3), inset 0 0 20px rgba(124, 77, 255, 0.05);
+  --glow-teal: 0 0 30px rgba(29, 233, 182, 0.2);
+  --glow-rose: 0 0 30px rgba(255, 64, 129, 0.2);
+  
+  --grid-color: rgba(124, 77, 255, 0.03);
+}
+
+:root[data-theme="light"] {
+  --bg: #f8f6fb;
+  --bg-gradient: radial-gradient(circle at 50% 0%, #edeaf5 0%, #f8f6fb 80%);
+  --surface: rgba(255, 255, 255, 0.8);
+  --surface-blur: blur(20px);
+  --card: rgba(255, 255, 255, 0.9);
+  --card-hover: rgba(245, 240, 250, 0.9);
+  --border: rgba(210, 195, 230, 0.8);
+  --border-hover: rgba(101, 31, 255, 0.5);
+  
+  --psy-violet: #651fff;
+  --psy-teal: #00bfa5;
+  --psy-rose: #f50057;
+  --gold: #ffb300;
+  --red: #d50000;
+  
+  --text-main: #1a1525;
+  --text-muted: #5a4f66;
+  --white: #0a0514;
+  
+  --glow-violet: 0 10px 40px rgba(101, 31, 255, 0.2);
+  --glow-teal: 0 10px 40px rgba(0, 191, 165, 0.2);
+  --glow-rose: 0 10px 40px rgba(245, 0, 87, 0.2);
+  
+  --grid-color: rgba(101, 31, 255, 0.04);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+body {
+  background: var(--bg-gradient); color: var(--text-main);
+  font-family: 'Outfit', sans-serif; overflow-x: hidden;
+  transition: background 0.5s ease, color 0.5s ease;
+  min-height: 100vh;
+}
+
+/* Background Topology */
+body::before {
+  content: ''; position: fixed; inset: 0;
+  background-image: 
+    radial-gradient(var(--grid-color) 1px, transparent 1px);
+  background-size: 40px 40px; pointer-events: none; z-index: -1;
+}
+
+.progress-bar { position: fixed; top: 0; left: 0; height: 4px; background: linear-gradient(90deg, var(--psy-violet), var(--psy-teal)); z-index: 10000; width: 0%; box-shadow: var(--glow-violet); transition: width 0.1s; }
+.ambient-glow { position: absolute; width: 1000px; height: 1000px; background: radial-gradient(circle, rgba(124, 77, 255, 0.05) 0%, transparent 60%); top: 30%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; z-index: -2; filter: blur(80px); animation: pulseGlow 15s infinite alternate ease-in-out; }
+@keyframes pulseGlow { 0% { opacity: 0.3; transform: translate(-50%, -50%) scale(0.8); } 100% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); } }
+
+/* Calming Cursor */
+@media (hover: hover) {
+  body { cursor: none; }
+  .cursor-dot { position: fixed; width: 6px; height: 6px; background: var(--psy-teal); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: width 0.15s, height 0.15s; box-shadow: var(--glow-teal); }
+  .cursor-ring { position: fixed; width: 50px; height: 50px; border: 1px solid var(--psy-violet); border-radius: 50%; pointer-events: none; z-index: 9998; opacity: 0.3; transform: translate(-50%, -50%); transition: width 0.3s, height 0.3s, transform 0.1s ease-out; backdrop-filter: blur(2px); }
+}
+
+/* ════════════════════════════════════════
+   GLASSMORPHISM LAYOUT
+════════════════════════════════════════ */
+.layout-wrapper { display: flex; min-height: 100vh; }
+
+.sidebar {
+  width: 320px; background: var(--surface); backdrop-filter: var(--surface-blur);
+  border-right: 1px solid var(--border); height: 100vh; position: sticky; top: 0;
+  padding: 40px 0; display: flex; flex-direction: column; z-index: 100;
+}
+.brand {
+  padding: 0 40px 30px; border-bottom: 1px solid var(--border);
+  font-family: 'Bebas Neue', sans-serif; font-size: 36px; color: var(--white);
+  letter-spacing: 2px; text-shadow: var(--glow-violet);
+}
+.brand span { color: var(--psy-teal); }
+
+.nav-links { padding: 30px 0; overflow-y: auto; flex-grow: 1; }
+.nav-link {
+  display: flex; align-items: center; padding: 14px 40px; color: var(--text-muted);
+  text-decoration: none; font-size: 14px; font-weight: 500; border-left: 4px solid transparent; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.nav-link:hover, .nav-link.active { color: var(--psy-teal); background: linear-gradient(90deg, rgba(29, 233, 182, 0.08) 0%, transparent 100%); border-left-color: var(--psy-teal); padding-left: 45px; }
+.nav-link-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; margin-right: 15px; opacity: 0.5; color: var(--white); }
+
+.sidebar-footer { padding: 30px 40px; border-top: 1px solid var(--border); }
+.theme-btn {
+  width: 100%; padding: 14px; border-radius: 12px; border: 1px solid var(--border); background: var(--card);
+  color: var(--text-main); font-family: 'JetBrains Mono', monospace; font-size: 12px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.3s;
+}
+.theme-btn:hover { border-color: var(--psy-violet); box-shadow: var(--glow-violet); color: var(--psy-violet); }
+
+.main-content { flex-grow: 1; width: calc(100% - 320px); }
+
+/* Mobile Header */
+.mobile-header {
+  display: none; position: fixed; top: 0; left: 0; width: 100%; background: var(--surface);
+  backdrop-filter: var(--surface-blur); padding: 20px 24px; border-bottom: 1px solid var(--border); z-index: 1000;
+}
+.menu-toggle { background: none; border: none; color: var(--text-main); font-size: 28px; cursor: pointer; }
+
+/* ════════════════════════════════════════
+   TYPOGRAPHY & HIGH-END COMPONENTS
+════════════════════════════════════════ */
+.hero { min-height: 100vh; padding: 100px; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; }
+.live-badge {
+  display: inline-flex; align-items: center; gap: 10px; font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--psy-teal); margin-bottom: 30px;
+  padding: 8px 16px; border: 1px solid rgba(29, 233, 182, 0.3); background: rgba(29, 233, 182, 0.05);
+  box-shadow: inset 0 0 20px rgba(29, 233, 182, 0.05); border-radius: 30px;
+}
+.live-dot { width: 8px; height: 8px; background: var(--psy-teal); border-radius: 50%; animation: pulse 2s infinite; box-shadow: 0 0 10px var(--psy-teal); }
+.hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(60px, 7vw, 120px); line-height: 0.85; color: var(--white); margin-bottom: 30px; letter-spacing: 1px; }
+.hero h1 span { color: transparent; -webkit-text-stroke: 1px var(--psy-violet); }
+[data-theme="light"] .hero h1 span { -webkit-text-stroke: 2px var(--psy-violet); }
+.hero p { font-size: clamp(18px, 2vw, 22px); color: var(--text-muted); max-width: 850px; line-height: 1.7; font-weight: 300; }
+
+.chapter { padding: 120px 100px; border-top: 1px solid var(--border); position: relative; }
+.ch-meta { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--psy-violet); letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 20px; display: flex; align-items: center; gap: 15px; }
+.ch-meta::before { content: '◎'; font-weight: bold; color: var(--psy-teal); }
+.ch-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(45px, 6vw, 85px); color: var(--white); line-height: 0.9; margin-bottom: 30px; letter-spacing: 1px; }
+.ch-title em { font-style: italic; color: transparent; -webkit-text-stroke: 1px var(--psy-teal); }
+[data-theme="light"] .ch-title em { -webkit-text-stroke: 2px var(--psy-teal); }
+.ch-desc { font-size: 20px; color: var(--text-muted); max-width: 900px; line-height: 1.8; margin-bottom: 70px; font-weight: 300; }
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; }
+
+/* Elite Cards */
+.card {
+  background: var(--card); backdrop-filter: var(--surface-blur); border: 1px solid var(--border);
+  border-radius: 12px; padding: 40px; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative; overflow: hidden;
+}
+.card::before {
+  content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, transparent 100%); pointer-events: none;
+}
+.card:hover { transform: translateY(-8px); border-color: var(--border-hover); box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+.card-indicator { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 16px; font-weight: 700; }
+.c-violet { color: var(--psy-violet); } .c-teal { color: var(--psy-teal); } .c-rose { color: var(--psy-rose); } .c-gold { color: var(--gold); }
+.card h3 { font-size: 24px; color: var(--white); margin-bottom: 16px; font-weight: 600; line-height: 1.3; }
+.card p { font-size: 16px; color: var(--text-muted); line-height: 1.7; }
+
+/* Deep Dive Callouts */
+.callout {
+  padding: 35px; border-radius: 12px; margin: 40px 0;
+  border-left: 4px solid var(--psy-teal); background: var(--card); backdrop-filter: var(--surface-blur);
+  box-shadow: 20px 20px 60px rgba(0,0,0,0.1); position: relative; font-size: 15px; line-height: 1.7;
+}
+.callout::after { content: 'MINDSET FRAMEWORK'; position: absolute; top: -12px; right: 25px; background: var(--bg); padding: 4px 12px; border: 1px solid var(--border); border-radius: 20px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--psy-teal); letter-spacing: 2px; }
+.callout.violet { border-left-color: var(--psy-violet); } .callout.rose { border-left-color: var(--psy-rose); }
+.callout strong { display: block; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 12px; color: var(--white); }
+
+/* Institutional SVG Utilities */
+.svg-container {
+  background: var(--card-hover); border: 1px solid var(--border); border-radius: 12px;
+  padding: 40px; margin-bottom: 40px; position: relative; overflow: hidden;
+  box-shadow: inset 0 0 50px rgba(0,0,0,0.1);
+}
+.svg-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-main); letter-spacing: 0.2em; font-weight: 700; }
+.badge { padding: 4px 10px; border-radius: 4px; font-weight: 700; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; border: 1px solid currentColor; }
+.bg-violet { color: var(--psy-violet); background: rgba(124, 77, 255, 0.1); }
+.bg-teal { color: var(--psy-teal); background: rgba(29, 233, 182, 0.1); }
+.bg-rose { color: var(--psy-rose); background: rgba(255, 64, 129, 0.1); }
+
+/* Advanced Animations */
+.reveal { opacity: 0; transform: translateY(40px); transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+@keyframes pulse { 0%, 100% { opacity: 1; box-shadow: 0 0 10px var(--psy-teal); } 50% { opacity: 0.4; box-shadow: none; } }
+@keyframes drawPath { to { stroke-dashoffset: 0; } }
+
+/* Master Screener (Checklist) */
+.checklist-wrapper { background: var(--card); backdrop-filter: var(--surface-blur); border: 1px solid var(--psy-violet); border-radius: 16px; overflow: hidden; box-shadow: var(--glow-violet); }
+.chk-header { background: linear-gradient(90deg, rgba(124, 77, 255, 0.1) 0%, transparent 100%); padding: 40px 50px; border-bottom: 1px solid var(--border); }
+.chk-body { padding: 50px; display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
+.chk-title { font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: 0.25em; text-transform: uppercase; margin-bottom: 24px; color: var(--psy-violet); border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+.custom-chk { display: none; }
+.chk-label { display: flex; align-items: flex-start; gap: 16px; font-size: 15px; color: var(--text-muted); cursor: pointer; transition: all 0.3s; padding: 12px 16px; border-radius: 10px; border: 1px solid transparent; line-height: 1.6; }
+.chk-label:hover { color: var(--text-main); background: var(--card-hover); border-color: var(--border); transform: translateX(5px); }
+.chk-box-ui { width: 22px; height: 22px; border: 2px solid var(--text-muted); border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); margin-top: 2px; background: var(--bg); }
+.custom-chk:checked + .chk-label { color: var(--text-muted); opacity: 0.5; text-decoration: line-through; }
+.custom-chk:checked + .chk-label .chk-box-ui { background: var(--psy-teal); border-color: var(--psy-teal); box-shadow: var(--glow-teal); transform: scale(1.15) rotate(9deg); }
+.custom-chk:checked + .chk-label .chk-box-ui::after { content: '✓'; color: var(--bg); font-weight: 900; font-size: 14px; }
+
+/* Diagram Helpers */
+.axis-line { stroke: var(--text-muted); stroke-width: 1; opacity: 0.4; }
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .hero h1 { font-size: clamp(50px, 6vw, 90px); }
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  .chk-body { grid-template-columns: 1fr; }
+}
+@media (max-width: 1024px) {
+  .sidebar { width: 280px; } .main-content { width: calc(100% - 280px); }
+  .hero, .chapter { padding: 80px 40px; }
+}
+@media (max-width: 768px) {
+  .sidebar { transform: translateX(-100%); position: fixed; box-shadow: 20px 0 50px rgba(0,0,0,0.8); z-index: 1001; }
+  .sidebar.open { transform: translateX(0); }
+  .main-content { width: 100%; margin-top: 70px; } .mobile-header { display: flex; justify-content: space-between; }
+  .hero, .chapter { padding: 60px 20px; }
+  .chk-header { padding: 30px 20px; } .chk-body { padding: 30px 20px; gap: 30px; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="layout-wrapper">
+  
+  <!-- Mobile Header -->
+  <header class="mobile-header">
+    <div class="brand" style="padding:0; border:none; font-size:28px;">MIND<span>.PRO</span></div>
+    <button class="menu-toggle" id="menuToggle">≡</button>
+  </header>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">MIND<span>.PRO</span></div>
+    <nav class="nav-links">
+      <a href="#hero" class="nav-link active"><span class="nav-link-num">01</span> The Final Boss</a>
+      <a href="#ch1" class="nav-link"><span class="nav-link-num">02</span> Cognitive Biases</a>
+      <a href="#ch2" class="nav-link"><span class="nav-link-num">03</span> Psychology of Crowds</a>
+      <a href="#ch3" class="nav-link"><span class="nav-link-num">04</span> Asset Allocation</a>
+      <a href="#ch4" class="nav-link"><span class="nav-link-num">05</span> The Sharpe Ratio</a>
+      <a href="#ch5" class="nav-link"><span class="nav-link-num">06</span> Black Swan Hedging</a>
+      <a href="#ch6" class="nav-link"><span class="nav-link-num">07</span> Mastery Protocol</a>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="theme-btn" id="themeToggle">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        Toggle Theme
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+      <div class="ambient-glow"></div>
+      <div class="live-badge"><span class="live-dot"></span> Behavioral Finance & Wealth Preservation</div>
+      <h1>MASTER THE <span>MIND.</span><br>PROTECT THE <span>WEALTH.</span></h1>
+      <p>Having the ultimate algorithmic edge or fundamental model is entirely useless if your own psychology sabotages the execution. You are fighting millions of years of evolutionary biology that mathematically programs you to lose money. It's time to rewire the brain.</p>
+    </section>
+
+    <!-- CHAPTER 1: COGNITIVE BIASES -->
+    <section class="chapter" id="ch1">
+      <div class="ch-meta">PILLAR 01: TRADING PSYCHOLOGY</div>
+      <h2 class="ch-title">COGNITIVE BIASES<br><em>(THE FLAWED BRAIN)</em></h2>
+      <p class="ch-desc">Nobel Prize-winning research (Kahneman & Tversky) proved that humans are irrational. We feel the pain of a loss twice as intensely as the pleasure of a gain. This creates disastrous trading behaviors.</p>
+
+      <div class="svg-container reveal">
+        <div class="svg-header"><span>PROSPECT THEORY (THE ASYMMETRY OF PAIN)</span><span class="badge bg-rose">LOSS AVERSION</span></div>
+        <svg viewBox="0 0 800 350" style="width:100%; height:auto;">
+          <!-- Grid & Axes -->
+          <line x1="100" y1="175" x2="700" y2="175" class="axis-line"/> <!-- X: Losses vs Gains -->
+          <line x1="400" y1="50" x2="400" y2="300" class="axis-line"/> <!-- Y: Psychological Utility -->
+          
+          <text x="710" y="180" fill="var(--psy-teal)" font-family="monospace" font-size="12">Gains ($)</text>
+          <text x="50" y="180" fill="var(--psy-rose)" font-family="monospace" font-size="12">Losses ($)</text>
+          
+          <text x="410" y="40" fill="var(--text-main)" font-family="monospace" font-size="12">Pleasure / Utility (+)</text>
+          <text x="410" y="320" fill="var(--text-main)" font-family="monospace" font-size="12">Pain / Utility (-)</text>
+
+          <!-- The Curve -->
+          <!-- Gains side: Concave, diminishing returns -->
+          <path d="M 400,175 Q 500,100 700,70" fill="none" stroke="var(--psy-teal)" stroke-width="4"/>
+          <!-- Losses side: Convex, steeper drop (Loss Aversion) -->
+          <path d="M 400,175 Q 300,280 100,320" fill="none" stroke="var(--psy-rose)" stroke-width="4"/>
+
+          <!-- Markers -->
+          <line x1="400" y1="120" x2="550" y2="120" stroke="var(--text-muted)" stroke-dasharray="4,4"/>
+          <line x1="550" y1="175" x2="550" y2="120" stroke="var(--text-muted)" stroke-dasharray="4,4"/>
+          <circle cx="550" cy="120" r="5" fill="var(--psy-teal)"/>
+          <text x="560" y="115" fill="var(--psy-teal)" font-family="monospace" font-size="12">+$10,000</text>
+          
+          <line x1="400" y1="285" x2="250" y2="285" stroke="var(--text-muted)" stroke-dasharray="4,4"/>
+          <line x1="250" y1="175" x2="250" y2="285" stroke="var(--text-muted)" stroke-dasharray="4,4"/>
+          <circle cx="250" cy="285" r="5" fill="var(--psy-rose)"/>
+          <text x="180" y="295" fill="var(--psy-rose)" font-family="monospace" font-size="12">-$10,000</text>
+          
+          <!-- Insight -->
+          <text x="250" y="200" fill="var(--white)" font-family="monospace" font-weight="bold" font-size="14" text-anchor="middle">Pain is > 2x deeper</text>
+          <text x="550" y="160" fill="var(--white)" font-family="monospace" font-weight="bold" font-size="14" text-anchor="middle">Pleasure tapers off</text>
+        </svg>
+      </div>
+
+      <div class="grid-3 reveal">
+        <div class="card" style="border-top: 4px solid var(--psy-rose);">
+          <div class="card-indicator c-rose">Loss Aversion</div>
+          <h3>Holding Losers</h3>
+          <p>Because the pain of a loss is so extreme, the brain refuses to "realize" it by selling. Traders hold losing positions hoping they bounce back to breakeven, allowing small paper cuts to turn into account-destroying hemorrhages.</p>
+        </div>
+        <div class="card" style="border-top: 4px solid var(--psy-teal);">
+          <div class="card-indicator c-teal">The Disposition Effect</div>
+          <h3>Selling Winners Early</h3>
+          <p>Conversely, because the pleasure curve flattens out, the brain wants to lock in a guaranteed small win immediately rather than let it compound. <em>Retail cuts winners short and lets losers run. Professionals do the exact opposite.</em></p>
+        </div>
+        <div class="card" style="border-top: 4px solid var(--psy-violet);">
+          <div class="card-indicator c-violet">The Sunk Cost Fallacy</div>
+          <h3>Averaging Down</h3>
+          <p>"I've already lost $5,000, I can't quit now. Let me buy more to lower my average." The market does not care what your average price is. Averaging down into a structurally broken trend is the fastest way to blow up an account.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 2: PSYCHOLOGY OF CROWDS -->
+    <section class="chapter" id="ch2" style="background: rgba(124, 77, 255, 0.02);">
+      <div class="ch-meta">PILLAR 01: TRADING PSYCHOLOGY</div>
+      <h2 class="ch-title">THE PSYCHOLOGY<br><em>OF CROWDS</em></h2>
+      <p class="ch-desc">Sir Isaac Newton said, "I can calculate the motion of heavenly bodies, but not the madness of people." Markets are merely pendulums swinging between extreme greed and extreme fear.</p>
+
+      <div class="svg-container reveal">
+        <div class="svg-header"><span>THE EMOTIONAL MARKET CYCLE</span><span class="badge bg-violet">CROWD SENTIMENT</span></div>
+        <svg viewBox="0 0 800 350" style="width:100%; height:auto;">
+          <!-- Baseline -->
+          <line x1="50" y1="250" x2="750" y2="250" class="axis-line" stroke-dasharray="4,4"/>
+          <text x="750" y="240" fill="var(--text-muted)" font-family="monospace" font-size="12">Fair Value</text>
+
+          <!-- The Emotional Wave -->
+          <path d="M 50,250 C 150,250 200,80 350,50 C 450,20 450,300 550,320 C 650,340 700,230 750,200" fill="none" stroke="var(--psy-violet)" stroke-width="4"/>
+          
+          <!-- Nodes and Labels -->
+          <circle cx="150" cy="200" r="5" fill="var(--psy-teal)"/>
+          <text x="150" y="185" fill="var(--psy-teal)" font-family="monospace" font-size="12" text-anchor="middle">Disbelief</text>
+          
+          <circle cx="280" cy="100" r="5" fill="var(--psy-teal)"/>
+          <text x="280" y="85" fill="var(--psy-teal)" font-family="monospace" font-size="12" text-anchor="middle">Thrill / Greed</text>
+
+          <circle cx="350" cy="50" r="8" fill="var(--gold)"/>
+          <text x="350" y="30" fill="var(--gold)" font-family="Bebas Neue" font-size="20" text-anchor="middle">EUPHORIA (MAX RISK)</text>
+
+          <circle cx="410" cy="150" r="5" fill="var(--psy-rose)"/>
+          <text x="430" y="145" fill="var(--psy-rose)" font-family="monospace" font-size="12">Denial</text>
+
+          <circle cx="480" cy="250" r="5" fill="var(--psy-rose)"/>
+          <text x="500" y="260" fill="var(--psy-rose)" font-family="monospace" font-size="12">Panic</text>
+
+          <circle cx="550" cy="320" r="8" fill="var(--red)"/>
+          <text x="550" y="340" fill="var(--red)" font-family="Bebas Neue" font-size="20" text-anchor="middle">CAPITULATION (MAX OPP)</text>
+
+          <circle cx="650" cy="280" r="5" fill="var(--psy-teal)"/>
+          <text x="650" y="300" fill="var(--text-main)" font-family="monospace" font-size="12" text-anchor="middle">Depression</text>
+        </svg>
+      </div>
+
+      <div class="callout violet reveal">
+        <strong class="c-violet">Contrarian Execution</strong>
+        The human brain is wired to feel safe when the crowd agrees with it (Herd Mentality). Therefore, buying at "Capitulation" feels terrifying because everyone is screaming that the world is ending. Selling at "Euphoria" feels foolish because your neighbor just made $50,000 on a meme stock. <strong>To extract alpha, you must be mathematically comfortable being deeply uncomfortable.</strong>
+      </div>
+    </section>
+
+    <!-- CHAPTER 3: ASSET ALLOCATION -->
+    <section class="chapter" id="ch3">
+      <div class="ch-meta">PILLAR 02: PORTFOLIO MANAGEMENT</div>
+      <h2 class="ch-title">ASSET ALLOCATION<br><em>(THE HOLY GRAIL)</em></h2>
+      <p class="ch-desc">Ray Dalio calls it the "Holy Grail of Investing." Over 90% of your portfolio's variance is driven by <em>what asset classes</em> you hold (Stocks, Bonds, Gold, Cash), NOT by which specific stocks you picked.</p>
+
+      <div class="svg-container reveal">
+        <div class="svg-header"><span>THE EFFICIENT FRONTIER (MODERN PORTFOLIO THEORY)</span><span class="badge bg-teal">MATH OF DIVERSIFICATION</span></div>
+        <svg viewBox="0 0 800 350" style="width:100%; height:auto;">
+          <!-- Axes -->
+          <line x1="80" y1="300" x2="700" y2="300" class="axis-line" stroke="var(--white)"/>
+          <line x1="80" y1="50" x2="80" y2="300" class="axis-line" stroke="var(--white)"/>
+          
+          <text x="400" y="330" fill="var(--text-muted)" font-family="monospace" font-size="14" text-anchor="middle">Risk (Volatility / Standard Deviation) →</text>
+          <text x="30" y="175" fill="var(--text-muted)" font-family="monospace" font-size="14" transform="rotate(-90 30,175)" text-anchor="middle">Expected Return ↑</text>
+
+          <!-- Inefficient Portfolios (Scattered Dots) -->
+          <circle cx="200" cy="250" r="3" fill="var(--text-muted)" opacity="0.5"/>
+          <circle cx="300" cy="200" r="3" fill="var(--text-muted)" opacity="0.5"/>
+          <circle cx="450" cy="220" r="3" fill="var(--text-muted)" opacity="0.5"/>
+          <circle cx="500" cy="180" r="3" fill="var(--text-muted)" opacity="0.5"/>
+          <circle cx="600" cy="150" r="3" fill="var(--text-muted)" opacity="0.5"/>
+
+          <!-- The Efficient Frontier Curve -->
+          <path d="M 150,280 Q 200,100 650,60" fill="none" stroke="var(--psy-teal)" stroke-width="4"/>
+          <text x="660" y="55" fill="var(--psy-teal)" font-family="monospace" font-weight="bold" font-size="14">Efficient Frontier</text>
+
+          <!-- Capital Market Line (CML) -->
+          <line x1="80" y1="280" x2="650" y2="20" stroke="var(--psy-violet)" stroke-dasharray="6,4" stroke-width="2"/>
+          <text x="80" y="270" fill="var(--text-main)" font-family="monospace" font-size="12">Risk-Free Rate</text>
+
+          <!-- The Optimal Portfolio -->
+          <circle cx="350" cy="140" r="8" fill="var(--gold)"/>
+          <circle cx="350" cy="140" r="15" fill="none" stroke="var(--gold)" stroke-width="2" style="animation: pulse 2s infinite;"/>
+          <line x1="350" y1="140" x2="350" y2="300" stroke="var(--gold)" stroke-dasharray="4,4"/>
+          <line x1="80" y1="140" x2="350" y2="140" stroke="var(--gold)" stroke-dasharray="4,4"/>
+          <text x="350" y="115" fill="var(--gold)" font-family="monospace" font-weight="bold" font-size="14" text-anchor="middle">Optimal Portfolio (Max Sharpe)</text>
+        </svg>
+      </div>
+
+      <div class="grid-2 reveal">
+        <div class="card" style="border-left: 4px solid var(--psy-teal);">
+          <div class="card-indicator c-teal">Uncorrelated Assets</div>
+          <h3>The Free Lunch</h3>
+          <p>Harry Markowitz proved that if you combine two volatile assets that are <strong>uncorrelated</strong> (e.g., Stocks and Long-Term Government Bonds), the overall risk of the portfolio drops massively, but the returns do not. Diversification across non-correlated assets is the only "free lunch" in finance.</p>
+        </div>
+        <div class="card" style="border-left: 4px solid var(--psy-violet);">
+          <div class="card-indicator c-violet">The All-Weather Model</div>
+          <h3>Surviving All Environments</h3>
+          <p>An institutional portfolio is designed to survive four economic seasons: Growth, Recession, Inflation, and Deflation. A 100% stock portfolio gets wiped out in a stagflationary environment. A true portfolio mixes Equities (for growth), Bonds (for deflation), and Gold/Commodities (for inflation).</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 4: THE SHARPE RATIO -->
+    <section class="chapter" id="ch4" style="background: rgba(29, 233, 182, 0.02);">
+      <div class="ch-meta">PILLAR 02: PORTFOLIO MANAGEMENT</div>
+      <h2 class="ch-title">RISK-ADJUSTED RETURNS<br><em>(THE SHARPE RATIO)</em></h2>
+      <p class="ch-desc">Amateurs brag about their absolute returns ("I made 50%!"). Professionals only care about Risk-Adjusted Returns. If you made 50% but suffered a 45% drawdown to get there, your portfolio is garbage.</p>
+
+      <div class="grid-3 reveal">
+        <div class="card">
+          <div class="card-indicator c-teal">The Sharpe Ratio</div>
+          <h3 style="font-size:20px; color:var(--white);">Return / Volatility</h3>
+          <p>Calculated as (Portfolio Return - Risk Free Rate) / Standard Deviation. A Sharpe ratio above 1.0 is excellent. Above 2.0 is elite. It proves you are generating high returns smoothly, without taking wild gambles.</p>
+        </div>
+        <div class="card">
+          <div class="card-indicator c-rose">Volatility Drag</div>
+          <h3 style="font-size:20px; color:var(--white);">The Math of Drawdowns</h3>
+          <p>If Portfolio A makes +50% then -50%, it is down 25%. If Portfolio B makes +10% then -10%, it is down only 1%. High volatility destroys compound interest. Smooth, lower absolute returns compound massively faster over 20 years.</p>
+        </div>
+        <div class="card">
+          <div class="card-indicator c-violet">The Sortino Ratio</div>
+          <h3 style="font-size:20px; color:var(--white);">Penalizing Downside Only</h3>
+          <p>The Sharpe ratio penalizes <em>all</em> volatility (even upside spikes). The Sortino Ratio is superior because it only penalizes <strong>Downside Deviation</strong>. If your portfolio spikes violently upward, Sortino doesn't punish you for it.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 5: HEDGING (BLACK SWANS) -->
+    <section class="chapter" id="ch5">
+      <div class="ch-meta">PILLAR 02: PORTFOLIO MANAGEMENT</div>
+      <h2 class="ch-title">BLACK SWAN SHIELDS<br><em>(HEDGING)</em></h2>
+      <p class="ch-desc">A Black Swan is a highly improbable, catastrophic event (like the 2008 Financial Crisis or 2020 Pandemic). You cannot predict them, but you must architect your portfolio to survive them.</p>
+
+      <div class="grid-2 reveal">
+        <div class="card" style="border-top: 4px solid var(--red);">
+          <div class="card-indicator c-red">Tail Risk Hedging</div>
+          <h3 style="color:var(--white);">Out-Of-The-Money Puts</h3>
+          <p>Institutional funds constantly buy deep OTM Put options on the SPY or Nifty (e.g., 20% below current price) rolling them every month. 99% of the time, these expire worthless (a minor insurance cost). But when a Black Swan hits, these puts explode 5000% in value, offsetting the massive losses in the equity portfolio. It is the cost of systemic survival.</p>
+        </div>
+        <div class="card" style="border-top: 4px solid var(--gold);">
+          <div class="card-indicator c-gold">Safe Havens</div>
+          <h3 style="color:var(--white);">Gold & Sovereign Bonds</h3>
+          <p>When panic strikes, global liquidity flees to the ultimate safety: US Treasuries and Physical Gold. While all stocks are crashing, long-duration government bonds rally violently as yields collapse. Having a 10-20% structural allocation to these assets acts as a shock absorber during systemic panics.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 6: ULTIMATE CHECKLIST -->
+    <section class="chapter" id="ch6">
+      <div class="ch-meta">System Execution</div>
+      <h2 class="ch-title">THE MIND & WEALTH<br><em>PROTOCOL</em></h2>
+      <p class="ch-desc">Before executing any major capital allocation, run through the psychological and structural risk gauntlet. Progress saves locally.</p>
+
+      <div class="checklist-wrapper reveal">
+        <div class="chk-header">
+          <h3 style="font-family:'Bebas Neue',sans-serif; font-size:38px; color:var(--psy-violet); letter-spacing:2px; text-shadow: var(--glow-violet);">PRE-FLIGHT PROTOCOL</h3>
+        </div>
+        <div class="chk-body">
+          <div class="chk-section">
+            <div class="chk-title">01. Psychological Audit</div>
+            <div class="chk-item">
+              <input type="checkbox" id="pchk1" class="custom-chk">
+              <label for="pchk1" class="chk-label"><div class="chk-box-ui"></div> I am executing this trade based on my system rules, not boredom, revenge, or FOMO.</label>
+            </div>
+            <div class="chk-item">
+              <input type="checkbox" id="pchk2" class="custom-chk">
+              <label for="pchk2" class="chk-label"><div class="chk-box-ui"></div> I have accepted the risk and will absolutely not "average down" if the trade breaks structure.</label>
+            </div>
+            <div class="chk-item">
+              <input type="checkbox" id="pchk3" class="custom-chk">
+              <label for="pchk3" class="chk-label"><div class="chk-box-ui"></div> I am not married to my thesis. I will let price action tell me if I am wrong.</label>
+            </div>
+          </div>
+          
+          <div class="chk-section">
+            <div class="chk-title" style="color:var(--psy-teal);">02. Structural Portfolio Risk</div>
+            <div class="chk-item">
+              <input type="checkbox" id="pchk4" class="custom-chk">
+              <label for="pchk4" class="chk-label"><div class="chk-box-ui"></div> No single equity position exceeds 5% to 10% of my total portfolio capital.</label>
+            </div>
+            <div class="chk-item">
+              <input type="checkbox" id="pchk5" class="custom-chk">
+              <label for="pchk5" class="chk-label"><div class="chk-box-ui"></div> My portfolio is diversified across non-correlated sectors (e.g., Tech and Staples/Energy).</label>
+            </div>
+          </div>
+
+          <div class="chk-section">
+            <div class="chk-title" style="color:var(--psy-rose);">03. Systemic Hedges</div>
+            <div class="chk-item">
+              <input type="checkbox" id="pchk6" class="custom-chk">
+              <label for="pchk6" class="chk-label"><div class="chk-box-ui"></div> I have a cash buffer or non-correlated asset allocation ready for deployment in a crisis.</label>
+            </div>
+            <div class="chk-item">
+              <input type="checkbox" id="pchk7" class="custom-chk">
+              <label for="pchk7" class="chk-label"><div class="chk-box-ui"></div> I know the exact maximum drawdown my portfolio would suffer in a 2008-style crash.</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer style="padding: 80px 100px; text-align: center; border-top: 1px solid var(--border); background: var(--surface); backdrop-filter: var(--surface-blur);">
+      <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 50px; color: var(--white); letter-spacing: 3px; text-shadow: var(--glow-violet);">MIND<span style="color:var(--psy-teal)">.PRO</span></h3>
+      <p style="color: var(--text-muted); font-size: 16px; max-width: 600px; margin: 20px auto; font-family: 'JetBrains Mono', monospace;">Survive. Compound. Master the self.<br>You have completed the financial ecosystem.</p>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+// Theme Toggle
+const themeBtn = document.getElementById('themeToggle');
+const html = document.documentElement;
+
+const savedTheme = localStorage.getItem('psy_theme');
+if (savedTheme) {
+  html.setAttribute('data-theme', savedTheme);
+} else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+  html.setAttribute('data-theme', 'light');
+}
+
+themeBtn.addEventListener('click', () => {
+  const currentTheme = html.getAttribute('data-theme');
+  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', newTheme);
+  localStorage.setItem('psy_theme', newTheme);
+});
+
+// Precision Custom Cursor
+if (window.matchMedia('(hover: hover)').matches) {
+  const cursor = document.getElementById('cursorDot');
+  const ring = document.getElementById('cursorRing');
+  let cx = window.innerWidth / 2, cy = window.innerHeight / 2;
+  let rx = cx, ry = cy;
+
+  document.addEventListener('mousemove', e => {
+    cx = e.clientX; cy = e.clientY;
+    cursor.style.left = cx + 'px';
+    cursor.style.top = cy + 'px';
+  });
+
+  function animateRing() {
+    rx += (cx - rx) * 0.15;
+    ry += (cy - ry) * 0.15;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  document.addEventListener('mousedown', () => {
+    cursor.style.transform = 'translate(-50%, -50%) scale(2)';
+    ring.style.transform = 'translate(-50%, -50%) scale(0.6)';
+  });
+  document.addEventListener('mouseup', () => {
+    cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+    ring.style.transform = 'translate(-50%, -50%) scale(1)';
+  });
+}
+
+// Scroll Reveal
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -100px 0px' });
+reveals.forEach(el => observer.observe(el));
+
+// Scrollspy for Sidebar
+const sections = document.querySelectorAll('section');
+const navLinks = document.querySelectorAll('.nav-link');
+
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop;
+    if (pageYOffset >= (sectionTop - 300)) {
+      current = section.getAttribute('id');
+    }
+  });
+
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href').includes(current)) {
+      link.classList.add('active');
+    }
+  });
+});
+
+// Mobile Sidebar
+const menuToggle = document.getElementById('menuToggle');
+const sidebar = document.getElementById('sidebar');
+menuToggle.addEventListener('click', () => sidebar.classList.toggle('open'));
+navLinks.forEach(link => {
+  link.addEventListener('click', () => {
+    if(window.innerWidth <= 1024) sidebar.classList.remove('open');
+  });
+});
+
+// Progress Bar
+window.addEventListener('scroll', () => {
+  const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+  const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const scrolled = (winScroll / height) * 100;
+  document.getElementById('progressBar').style.width = scrolled + '%';
+});
+
+// Interactive Checklist Persistent Storage
+const checkboxes = document.querySelectorAll('.custom-chk');
+checkboxes.forEach(chk => {
+  const savedState = localStorage.getItem('psy_chk_' + chk.id);
+  if (savedState === 'true') chk.checked = true;
+  chk.addEventListener('change', (e) => {
+    localStorage.setItem('psy_chk_' + e.target.id, e.target.checked);
+  });
+});
+</script>
+</body>
+</html>
